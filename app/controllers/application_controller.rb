@@ -17,4 +17,28 @@ class ApplicationController < ActionController::Base
   def default_url_options
     {locale: I18n.locale}
   end
+
+  def check_amin
+    redirect_to root_path unless current_user.role?
+    flash[:danger] = t "not_admin"
+  end
+
+  def find_user_by_id
+    @user = User.find_by id: params[:id]
+    return if @user
+
+    flash[:danger] = t "find_fail"
+    redirect_to root_url
+  end
+
+  def check_user_activated
+    return if @user.activated
+
+    flash[:danger] = t "user_not_activated"
+    redirect_to root_url
+  end
+
+  def correct_user
+    redirect_to root_path unless current_user? @user
+  end
 end

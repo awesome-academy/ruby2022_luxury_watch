@@ -24,6 +24,10 @@
         <div class="box">
           <% if logged_in? %>
             <span><%= current_user.name %></span>
+
+            <% if current_user.role? %>
+              <span class="admin-page"><%= link_to t("admin.admin"), admin_root_path %></span>
+            <% end %>
           <% end %>
         </div>
       </div>

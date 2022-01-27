@@ -42,6 +42,8 @@ en:
   admin:
     title: "Dashboard"
     login: "Login"
+    admin: "Admin page"
+    not_admin: "You do not have permission to access this site"
   user:
     name: "Name"
     email: "Email"
@@ -56,6 +58,7 @@ en:
     activated: "Activated"
     activated_failed: "Activated failed"
     activate: "Activate"
+    unactivate : "Unactivate"
     click_link_to_activate: "Welcome to the Sample App!
                           Click on the link below to activate your account:"
     settings: "Settings"
@@ -73,3 +76,5 @@ en:
   desc: "Description"
   category: "Category"
   not_found: "Not found"
+  STT: "STT"
+  all_users: "All users"

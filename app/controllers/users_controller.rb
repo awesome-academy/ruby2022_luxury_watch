@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :find_user_by_id, :check_user,
+  before_action :find_user_by_id, :check_user_activated,
                 :correct_user, only: %i(edit update)
 
   def index; end
@@ -37,24 +37,5 @@ class UsersController < ApplicationController
                                  :address,
                                  :phone,
                                  :password_confirmation)
-  end
-
-  def find_user_by_id
-    @user = User.find_by id: params[:id]
-    return if @user
-
-    flash[:danger] = t "find_fail"
-    redirect_to root_url
-  end
-
-  def check_user
-    return if @user&.activated
-
-    flash[:danger] = t "user_not_activated"
-    redirect_to root_url
-  end
-
-  def correct_user
-    redirect_to root_path unless current_user? @user
   end
 end

@@ -52,3 +52,15 @@
   align-items: center;
   justify-content: space-between;
 }
+
+.navbar-right.admin li.user-name{
+  color: white;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+span.admin-page a{
+  text-decoration: none;
+  color: white;
+  margin-left: 10px;
+}

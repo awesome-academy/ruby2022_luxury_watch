@@ -29,3 +29,30 @@ end
                        product_size_id: ProductSize.pluck(:id).sample,
                        product_color_id: ProductColor.pluck(:id).sample)
   end
+
+User.create!(name: "Example User",
+            address: "quang nam",
+            phone: "0239583958",
+            email: "admin@gmail.com",
+            password: "123456",
+            password_confirmation: "123456",
+            role: true,
+            activated: true,
+            activated_at: Time.zone.now)
+
+50.times do |n|
+  name = Faker::Name.name
+  email = "sss-#{n+1}@railstutorial.org"
+  password = "password"
+  address = "quang nam"
+  phone = "023859835"
+  User.create!(name: name,
+              address: address,
+              phone: phone,
+              email: email,
+              password: password,
+              password_confirmation: password,
+              role: false,
+              activated: true,
+              activated_at: Time.zone.now)
+end

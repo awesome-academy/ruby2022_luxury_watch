@@ -42,6 +42,8 @@ vi:
   admin:
     title: "Bảng điều khiển"
     login: "Đăng nhập"
+    admin: "Trang quản trị"
+    not_admin: "Bạn không có quyền vào trang này"
   user:
     name: "Tên"
     email: "Địa chỉ email"
@@ -56,6 +58,7 @@ vi:
     activated: "Đã kích hoạt"
     activated_failed: "Kích hoạt không thành công"
     activate: "Kích hoạt"
+    unactivate : "Hủy kích hoạt"
     click_link_to_activate: "Chào mừng bạn đến với Ứng dụng mẫu!
                            Nhấp vào liên kết bên dưới để kích hoạt tài khoản của bạn:"
     settigns: "Cài đặt"
@@ -73,3 +76,5 @@ vi:
   desc: "Mô tả"
   category: "Danh mục"
   not_found: "Không có kết quả thỏa mãn"
+  STT: "STT"
+  all_users: "Tất cả người dùng"
