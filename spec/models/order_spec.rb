@@ -7,6 +7,10 @@ RSpec.describe Order, type: :model do
 
   describe "Scopes" do
     let!(:user){FactoryBot.create :user, name: "tuongabc"}
+    let!(:category_1){FactoryBot.create :category}
+    let!(:product_1){FactoryBot.create :product, category_id: category_1.id}
+    let!(:product_2){FactoryBot.create :product, name: "casio"}
+    let!(:product_3){FactoryBot.create :product, name: "abc"}
     let!(:order_1){FactoryBot.create :order,
                                       user_name_at_order: user.name,
                                       status: Settings.order_shipping,
@@ -15,6 +19,23 @@ RSpec.describe Order, type: :model do
                                      user_name_at_order: user.name,
                                      status: Settings.order_delivered,
                                      user_id: user.id}
+
+    let!(:product_size_1){FactoryBot.create :product_size, size: 34}
+    let!(:product_color_1){FactoryBot.create :product_color}
+    let!(:product_size_2){FactoryBot.create :product_size, size: 24}
+    let!(:product_color_2){FactoryBot.create :product_color, color: "skyss"}
+    let!(:product_detail_1){FactoryBot.create :product_detail, product_id: product_1.id,
+                                              product_size_id: product_size_1.id,
+                                              product_color_id: product_color_1.id, price: 1000}
+    let!(:product_detail_2){FactoryBot.create :product_detail, product_id: product_2.id,
+          product_size_id: product_size_2.id,
+          product_color_id: product_color_2.id, price: 1000}
+    let!(:order_detail_1) {FactoryBot.create :order_detail,
+                                             order_id: order_1.id,
+                                             product_detail_id: product_detail_1.id}
+    let!(:order_detail_2) {FactoryBot.create :order_detail,
+                                              order_id: order_2.id,
+                                              product_detail_id: product_detail_2.id}
 
     describe "scope newest" do
       context "with scope newest" do
@@ -30,25 +51,16 @@ RSpec.describe Order, type: :model do
       end
     end
 
-    describe "Search id" do
-      context "with scope search id" do
-        it "return order with id" do
-          expect(Order.search_id(order_1.id)).to eq [order_1]
+    describe "scope by_product" do
+      context "when found" do
+        it "should filter products by product id" do
+          expect(user.orders.by_product([product_1.id, product_2.id])).to eq [order_1, order_2]
         end
       end
 
-      context "with scope search by id" do
-        it "return order search by id" do
-          expect(Order.search_by_id(order_1.id)).to eq [order_1]
-        end
-      end
-    end
-
-    describe "scope search" do
-      context "with scope search name" do
-        it "search order with user name" do
-          result = Order.search("tuongabc")
-          expect(result).to eq [order_1, order_2]
+      context "when not found" do
+        it "should be empty" do
+          expect(user.orders.by_product([-2, -1])).to eq []
         end
       end
     end
@@ -57,7 +69,8 @@ RSpec.describe Order, type: :model do
   describe "Stauts order" do
     let!(:user){FactoryBot.create :user}
     let!(:order_1){FactoryBot.create :order,
-                                  user_id: user.id}
+                                     status: Settings.order_delivered,
+                                     user_id: user.id}
 
     it "return order can buy again" do
       expect(order_1).to be_status_buy_again
@@ -78,15 +91,6 @@ RSpec.describe Order, type: :model do
   describe "enums" do
     it "define status as an enum" do
       should define_enum_for(:status)
-    end
-  end
-
-  describe "Validations" do
-    context "with field user_name_at_order" do
-      it { should validate_presence_of(:user_name_at_order) }
-    end
-    context "with field address_at_order" do
-      it { should validate_presence_of(:address_at_order) }
     end
   end
 end

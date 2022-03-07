@@ -25,7 +25,7 @@ class OrdersController < ApplicationController
     end
     handle_success_order
   rescue NoMethodError
-    handle_exception e
+    handle_exception
   end
 
   def show; end
@@ -44,17 +44,6 @@ class OrdersController < ApplicationController
                   :discount_id
   end
 
-  def create_order_detail
-    current_carts.each do |id, quantity|
-      @product_detail = ProductDetail.find_by id: id
-      @order.order_details.build(
-        quantity: quantity,
-        price_at_order: @product_detail.price,
-        product_detail_id: @product_detail.id
-      )
-    end
-  end
-
   def init_order
     @order = current_user.orders.new order_params
     @order.status = Settings.order_wait
@@ -66,20 +55,15 @@ class OrdersController < ApplicationController
     redirect_to root_url
   end
 
-  def handle_exception exception
-    log exception
+  def handle_exception
     flash.now[:danger] = t "error"
     redirect_to root_url
   end
 
   def update_status
-    begin
-      return buy_again_order if @order.status_buy_again?
+    return buy_again_order if @order.status_buy_again?
 
-      return @order.rejected! if @order.wait?
-    end
-  rescue StandardError => e
-    handle_exception e
+    return @order.rejected! if @order.wait?
   end
 
   def search_orders

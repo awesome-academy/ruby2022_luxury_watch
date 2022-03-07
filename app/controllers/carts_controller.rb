@@ -12,7 +12,7 @@ class CartsController < ApplicationController
   end
 
   def create
-    add_cart params[:product_detail_id]
+    add_cart params[:id]
     flash[:success] = t "success"
     respond_to do |format|
       format.html{redirect_to request.referer}
@@ -66,7 +66,7 @@ class CartsController < ApplicationController
   end
 
   def load_product
-    @product_detail = ProductDetail.find_by(id: params[:product_detail_id])
+    @product_detail = ProductDetail.find_by(id: params[:id])
     return if @product_detail.present?
 
     flash[:warning] = t "not_found"

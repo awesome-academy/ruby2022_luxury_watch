@@ -8,7 +8,7 @@
           </li>
           <% Order.statuses.each do |key, val| %>
             <li>
-              <%= link_to t("#{key}"), q: {status_cont: val} %>
+              <%= link_to t("#{key}"), q: {status_eq: val} %>
             </li>
           <% end %>
         </ul>
