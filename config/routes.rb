@@ -2,6 +2,8 @@ require "sidekiq/web"
 Rails.application.routes.draw do
   devise_for :users, only: :omniauth_callbacks, controllers: {omniauth_callbacks: "users/omniauth_callbacks"}
   scope "(:locale)", locale: /en|vi/ do
+    mount API::Base, at: "/"
+    mount GrapeSwaggerRails::Engine, at: "/documentation"
     mount Sidekiq::Web => "/sidekiq"
     root "homes#index"
     get "/contact", to: "homes#contact"
