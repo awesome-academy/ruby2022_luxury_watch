@@ -1,4 +1,5 @@
 class Admin::UsersController < Admin::AdminController
+  before_action :authenticate_user!
   before_action :load_with_deleted, only: %i(destroy show)
 
   def index
@@ -10,7 +11,7 @@ class Admin::UsersController < Admin::AdminController
   def destroy
     @user.deleted? ? @user.restore(recursive: true) : @user.delete
     respond_to do |format|
-      format.html{redirect_to @admin_root_path}
+      format.html{redirect_to admin_root_path}
       format.js
     end
   end

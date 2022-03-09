@@ -13,8 +13,8 @@ class Order < ApplicationRecord
     returned: 5
   }
   delegate :name, :email, to: :user, prefix: :user
-  validates :user_name_at_order, presence: true
-  validates :address_at_order, presence: true
+  # validates :user_name_at_order, presence: true
+  # validates :address_at_order, presence: true
   scope :by_status,
         ->(type){where("status = ?", type) if type}
   scope :by_product, (lambda do |pro_ids|

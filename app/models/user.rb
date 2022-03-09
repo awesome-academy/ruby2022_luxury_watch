@@ -20,6 +20,9 @@ class User < ApplicationRecord
   scope :search_by_name,
         ->(name){where("LOWER(name) LIKE ?", "%#{name.downcase}%") if name}
 
+  scope :by_role,
+        ->(role){where("role = ?", role.to_s) if role}
+
   class << self
     def from_omniauth auth
       where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
